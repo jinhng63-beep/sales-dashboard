@@ -94,6 +94,7 @@
       text-transform: uppercase;
     }
 
+    input,
     select,
     button {
       border: 1px solid var(--line);
@@ -116,6 +117,133 @@
       background-repeat: no-repeat;
       color: var(--ink);
       padding: 0 42px 0 12px;
+      width: 100%;
+    }
+
+    .filter-field {
+      color: var(--muted);
+      display: grid;
+      font-size: 0.78rem;
+      font-weight: 800;
+      gap: 7px;
+      min-width: 0;
+      text-transform: uppercase;
+    }
+
+    .multi-filter {
+      color: var(--ink);
+      font-size: 0.9rem;
+      font-weight: 700;
+      position: relative;
+      text-transform: none;
+    }
+
+    .multi-filter summary {
+      align-items: center;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      list-style: none;
+      min-height: 44px;
+      overflow: hidden;
+      padding: 0 12px;
+      white-space: nowrap;
+    }
+
+    .multi-filter summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .multi-filter summary::after {
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid var(--muted);
+      content: "";
+      flex: 0 0 auto;
+      margin-left: 12px;
+      transition: transform 160ms ease;
+    }
+
+    .multi-filter[open] summary::after {
+      transform: rotate(180deg);
+    }
+
+    .filter-summary-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .filter-panel {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 16px 35px rgba(37, 49, 74, 0.18);
+      left: 0;
+      margin-top: 6px;
+      min-width: 100%;
+      padding: 10px;
+      position: absolute;
+      width: min(360px, calc(100vw - 40px));
+      z-index: 20;
+    }
+
+    .filter-search {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      color: var(--ink);
+      font: inherit;
+      min-height: 40px;
+      padding: 0 11px;
+      width: 100%;
+    }
+
+    .filter-options {
+      display: grid;
+      gap: 2px;
+      max-height: 240px;
+      margin-top: 8px;
+      overflow: auto;
+    }
+
+    .filter-option {
+      align-items: flex-start;
+      border-radius: 6px;
+      color: var(--ink);
+      cursor: pointer;
+      display: flex;
+      font-size: 0.85rem;
+      font-weight: 600;
+      gap: 9px;
+      line-height: 1.35;
+      padding: 8px;
+      text-transform: none;
+    }
+
+    .filter-option:hover {
+      background: #f3f6fb;
+    }
+
+    .filter-option input {
+      accent-color: var(--accent);
+      flex: 0 0 auto;
+      margin: 2px 0 0;
+      min-height: auto;
+    }
+
+    .filter-empty {
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin: 12px 8px;
+    }
+
+    .show-all-button {
+      border-radius: 7px;
+      margin-top: 8px;
+      min-height: 36px;
+      padding: 0 11px;
       width: 100%;
     }
 
@@ -338,15 +466,31 @@
     </section>
 
     <section class="filters" aria-label="Dashboard filters">
-      <label for="outletFilter">
-        Outlet
-        <select id="outletFilter"></select>
-      </label>
+      <div class="filter-field">
+        <span>Outlet</span>
+        <details id="outletFilter" class="multi-filter">
+          <summary><span id="outletFilterSummary" class="filter-summary-text">All outlets</span></summary>
+          <div class="filter-panel">
+            <input id="outletSearch" class="filter-search" type="search" placeholder="Search outlets" aria-label="Search outlets">
+            <div id="outletOptions" class="filter-options"></div>
+            <p id="outletEmpty" class="filter-empty" hidden>No matching outlets</p>
+            <button id="clearOutletFilter" class="show-all-button" type="button">Show all outlets</button>
+          </div>
+        </details>
+      </div>
 
-      <label for="monthFilter">
-        Month
-        <select id="monthFilter"></select>
-      </label>
+      <div class="filter-field">
+        <span>Month</span>
+        <details id="monthFilter" class="multi-filter">
+          <summary><span id="monthFilterSummary" class="filter-summary-text">All months</span></summary>
+          <div class="filter-panel">
+            <input id="monthSearch" class="filter-search" type="search" placeholder="Search months" aria-label="Search months">
+            <div id="monthOptions" class="filter-options"></div>
+            <p id="monthEmpty" class="filter-empty" hidden>No matching months</p>
+            <button id="clearMonthFilter" class="show-all-button" type="button">Show all months</button>
+          </div>
+        </details>
+      </div>
 
       <button id="plusFilter" class="toggle-button" type="button" aria-pressed="false">
         Plus Program only
@@ -390,6 +534,7 @@
             <tr>
               <th>Outlet</th>
               <th class="number">% Achieved</th>
+              <th id="incentiveHeader" class="number" hidden>Incentive</th>
               <th>Month</th>
               <th>Program</th>
               <th class="number">Plus Target</th>
@@ -419,7 +564,7 @@
       { leCode: "D9033733733701400164", outlet: "PASARAYA HWA THAI S/B @ BESTMART", month: "June", program: "Normal", plusGroup: "-", plusTarget: 0, ams2025: 13669, upToDateSales: 0 },
       { leCode: "D9033733733701400479", outlet: "PASARAYA HWA THAI S/B @ PANDAN 2", month: "June", program: "Normal", plusGroup: "-", plusTarget: 0, ams2025: 10769, upToDateSales: 5906.15 },
       { leCode: "D9033733733701401206", outlet: "PASARAYA HWA THAI SDN BHD @ SALENG", month: "June", program: "Normal", plusGroup: "-", plusTarget: 0, ams2025: 6785, upToDateSales: 4345.5945 },
-      { leCode: "D9033733733709005170", outlet: "PASARAYA HWA THAI SDN BHD @ SKS MART", month: "June", program: "Normal", plusGroup: "-", plusTarget: 0, ams2025: 5703, upToDateSales: 7918.535 },
+      { leCode: "D9033733733709005170", outlet: "PASARAYA HWA THAI SDN BHD @ SKS MART", month: "June", program: "Normal", plusGroup: "-", plusTarget: 0, ams2025: 5703, upToDateSales: 8679.77 },
       { leCode: "D9033733733701400693", outlet: "PASARAYA HWA THAI SDN BHD (554932-M)", month: "June", program: "Normal", plusGroup: "-", plusTarget: 0, ams2025: 4887, upToDateSales: 17875.2 },
       { leCode: "D9033733733701400292", outlet: "PASARAYA HWA THAI SDN BHD@ MASAI", month: "June", program: "Normal", plusGroup: "-", plusTarget: 0, ams2025: 4824, upToDateSales: 7414.75 },
       { leCode: "D9034234234209011016", outlet: "PASARAYA HWA THAI SDN BHD @ KOTA TINGGI", month: "June", program: "Normal", plusGroup: "-", plusTarget: 0, ams2025: 2937, upToDateSales: 2817.4625 },
@@ -432,17 +577,17 @@
       { leCode: "D9034534534501400011", outlet: "RINTING FROZEN FOODS SDN BHD (984206-X)", month: "June", program: "Plus", plusGroup: "-", plusTarget: 226992, ams2025: 76695, upToDateSales: 68488.73 },
       { leCode: "D9035735735701400036", outlet: "LEE HIN ENTERPRISE SDN BHD (328173-V)", month: "June", program: "Plus", plusGroup: "-", plusTarget: 256236, ams2025: 67596, upToDateSales: 85624.146 },
       { leCode: "D9033733733701400050", outlet: "TAI TONG SEN KEE TRADING S/B(649870-W)", month: "June", program: "Plus", plusGroup: "-", plusTarget: 159202, ams2025: 63638, upToDateSales: 59234.59 },
-      { leCode: "D9033733733701400103", outlet: "SEA FROZEN FOOD SDN BHD (329599-P)", month: "June", program: "Plus", plusGroup: "-", plusTarget: 214563, ams2025: 61517, upToDateSales: 44759.63 },
+      { leCode: "D9033733733701400103", outlet: "SEA FROZEN FOOD SDN BHD (329599-P)", month: "June", program: "Plus", plusGroup: "-", plusTarget: 214563, ams2025: 61517, upToDateSales: 54898.885 },
       { leCode: "D9033733733701400397", outlet: "UNIFIED VISION SDN BHD (896604-D)", month: "June", program: "Plus", plusGroup: "Midas Group", plusTarget: 0, ams2025: 30094, upToDateSales: 15787.0525 },
-      { leCode: "D9033733733701400104", outlet: "SYARIKAT SIN SONG HUAT (JM0042627X)", month: "June", program: "Plus", plusGroup: "-", plusTarget: 96871, ams2025: 25850, upToDateSales: 20424.24 },
+      { leCode: "D9033733733701400104", outlet: "SYARIKAT SIN SONG HUAT (JM0042627X)", month: "June", program: "Plus", plusGroup: "-", plusTarget: 96871, ams2025: 25850, upToDateSales: 21408.915 },
       { leCode: "D9033733733701400893", outlet: "SAVE ECON MART (JM0454492-P)", month: "June", program: "Plus", plusGroup: "-", plusTarget: 105591, ams2025: 21669, upToDateSales: 1997.47 },
       { leCode: "D9033733733701400770", outlet: "NBS CASH & CARRY S/B (KULAI)", month: "June", program: "Plus", plusGroup: "-", plusTarget: 44275, ams2025: 19583, upToDateSales: 1035.88 },
       { leCode: "D9033733733701400059", outlet: "YU LIEN TRADING CO. (JM0073707-D)", month: "June", program: "Plus", plusGroup: "-", plusTarget: 69563, ams2025: 18492, upToDateSales: 15908.13 },
-      { leCode: "D9035735735709005326", outlet: "CK FOOD CASTLE SDN. BHD.", month: "June", program: "Normal", plusGroup: "-", plusTarget: 60341, ams2025: 17702, upToDateSales: 12675.3275 },
+      { leCode: "D9035735735709005326", outlet: "CK FOOD CASTLE SDN. BHD.", month: "June", program: "Normal", plusGroup: "-", plusTarget: 60341, ams2025: 17702, upToDateSales: 17888.9275 },
       { leCode: "D9033733733701401068", outlet: "JM FROZEN FOODS SUPPLY SDN BHD (1178182-X)", month: "June", program: "Normal", plusGroup: "-", plusTarget: 66709, ams2025: 17029, upToDateSales: 9918 },
       { leCode: "D9035735735709001634", outlet: "G GROCER SDN BHD (1242048-)", month: "June", program: "Normal", plusGroup: "-", plusTarget: 51489, ams2025: 15419, upToDateSales: 13532.1325 },
       { leCode: "D9033733733701400029", outlet: "LIANG HIANG SDN BHD (563464-D)", month: "June", program: "Normal", plusGroup: "-", plusTarget: 42839, ams2025: 11915, upToDateSales: 8909.67 },
-      { leCode: "D9033733733701400646", outlet: "KHT GROCERY SDN. BHD.", month: "June", program: "Normal", plusGroup: "-", plusTarget: 25138, ams2025: 8102, upToDateSales: 3921.22 }
+      { leCode: "D9033733733701400646", outlet: "KHT GROCERY SDN. BHD.", month: "June", program: "Normal", plusGroup: "-", plusTarget: 25138, ams2025: 8102, upToDateSales: 9431.79 }
     ];
 
     function getPlusGroup(row) {
@@ -567,22 +712,40 @@
     ];
 
     const state = {
-      outlet: "All",
-      month: "All",
+      outlets: new Set(),
+      months: new Set(),
       plusOnly: false
     };
 
     const outletFilter = document.querySelector("#outletFilter");
     const monthFilter = document.querySelector("#monthFilter");
+    const outletFilterSummary = document.querySelector("#outletFilterSummary");
+    const monthFilterSummary = document.querySelector("#monthFilterSummary");
+    const outletSearch = document.querySelector("#outletSearch");
+    const monthSearch = document.querySelector("#monthSearch");
+    const outletOptions = document.querySelector("#outletOptions");
+    const monthOptions = document.querySelector("#monthOptions");
+    const outletEmpty = document.querySelector("#outletEmpty");
+    const monthEmpty = document.querySelector("#monthEmpty");
+    const clearOutletFilter = document.querySelector("#clearOutletFilter");
+    const clearMonthFilter = document.querySelector("#clearMonthFilter");
     const plusFilter = document.querySelector("#plusFilter");
     const resetFilters = document.querySelector("#resetFilters");
     const salesTableBody = document.querySelector("#salesTableBody");
     const resultCount = document.querySelector("#resultCount");
+    const incentiveHeader = document.querySelector("#incentiveHeader");
 
     const formatCurrency = new Intl.NumberFormat("en-MY", {
       style: "currency",
       currency: "MYR",
       maximumFractionDigits: 0
+    });
+
+    const formatIncentiveCurrency = new Intl.NumberFormat("en-MY", {
+      style: "currency",
+      currency: "MYR",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
     });
 
 
@@ -610,24 +773,113 @@ function getAchievement(row) {
   return row.upToDateSales / target;
 }
 
+    const incentiveRules = [
+      { match: "ck food castle", rate100: 0.0125, rate101: 0.02 },
+      { match: "g grocer", rate100: 0.0125, rate101: 0.02 },
+      { match: "hwa thai group", rate100: 0.0215, rate101: 0.029 },
+      { match: "jm frozen", rate100: 0.0125, rate101: 0.02 },
+      { match: "kht grocery", rate100: 0.0075, rate101: 0.015 },
+      { match: "lee hin", rate100: 0.0215, rate101: 0.029 },
+      { match: "liang hiang", rate100: 0.0125, rate101: 0.02 },
+      { match: "midas", rate100: 0.0215, rate101: 0.029 },
+      { match: "nbs cash", rate100: 0.0125, rate101: 0.02 },
+      { match: "rinting frozen", rate100: 0.0215, rate101: 0.029 },
+      { match: "save econ mart", rate100: 0.015, rate101: 0.02 },
+      { match: "sea frozen", rate100: 0.0215, rate101: 0.029 },
+      { match: "sin song huat", rate100: 0.015, rate101: 0.02 },
+      { match: "tai tong", rate100: 0.0215, rate101: 0.029 },
+      { match: "yu lien", rate100: 0.0125, rate101: 0.02 }
+    ];
+
+    function getIncentive(row) {
+      const outletName = String(row.outlet || "").toLocaleLowerCase();
+      const rule = incentiveRules.find(({ match }) => outletName.includes(match));
+      const target = Number(row.plusTarget || 0);
+      const sales = Number(row.upToDateSales || 0);
+
+      if (!rule || !target) {
+        return null;
+      }
+
+      const achievement = sales / target;
+      if (achievement < 1) {
+        return 0;
+      }
+
+      const rate = achievement >= 1.01 ? rule.rate101 : rule.rate100;
+      const cappedSales = Math.min(sales, target * 1.1);
+      return cappedSales * rate;
+    }
+
     function uniqueValues(key) {
       return [...new Set(salesData.map((row) => row[key]))].filter(Boolean);
     }
 
-    function fillSelect(selectElement, values) {
-      selectElement.innerHTML = "";
-
-      const allOption = document.createElement("option");
-      allOption.value = "All";
-      allOption.textContent = "All";
-      selectElement.appendChild(allOption);
+    function fillMultiFilter(container, values, selectedValues, type) {
+      container.innerHTML = "";
 
       values.forEach((value) => {
-        const option = document.createElement("option");
-        option.value = value;
-        option.textContent = value;
-        selectElement.appendChild(option);
+        const option = document.createElement("label");
+        option.className = "filter-option";
+        option.dataset.searchValue = value.toLocaleLowerCase();
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.value = value;
+        checkbox.checked = selectedValues.has(value);
+
+        const text = document.createElement("span");
+        text.textContent = value;
+
+        checkbox.addEventListener("change", () => {
+          if (checkbox.checked) {
+            selectedValues.add(value);
+          } else {
+            selectedValues.delete(value);
+          }
+          updateFilterSummary(type);
+          renderDashboard();
+        });
+
+        option.append(checkbox, text);
+        container.appendChild(option);
       });
+    }
+
+    function updateFilterSummary(type) {
+      const selectedValues = type === "outlet" ? state.outlets : state.months;
+      const summary = type === "outlet" ? outletFilterSummary : monthFilterSummary;
+      const singular = type === "outlet" ? "outlet" : "month";
+
+      if (selectedValues.size === 0) {
+        summary.textContent = `All ${singular}s`;
+      } else if (selectedValues.size === 1) {
+        summary.textContent = [...selectedValues][0];
+      } else {
+        summary.textContent = `${selectedValues.size} ${singular}s selected`;
+      }
+    }
+
+    function filterOptions(searchInput, container, emptyMessage) {
+      const query = searchInput.value.trim().toLocaleLowerCase();
+      let visibleCount = 0;
+
+      container.querySelectorAll(".filter-option").forEach((option) => {
+        const visible = option.dataset.searchValue.includes(query);
+        option.hidden = !visible;
+        visibleCount += Number(visible);
+      });
+
+      emptyMessage.hidden = visibleCount !== 0;
+    }
+
+    function clearMultiFilter(selectedValues, container, type) {
+      selectedValues.clear();
+      container.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+        checkbox.checked = false;
+      });
+      updateFilterSummary(type);
+      renderDashboard();
     }
 
     function populateFilters() {
@@ -638,14 +890,16 @@ function getAchievement(row) {
         return (aIndex === -1 ? 99 : aIndex) - (bIndex === -1 ? 99 : bIndex) || a.localeCompare(b);
       });
 
-      fillSelect(outletFilter, outlets);
-      fillSelect(monthFilter, months);
+      fillMultiFilter(outletOptions, outlets, state.outlets, "outlet");
+      fillMultiFilter(monthOptions, months, state.months, "month");
+      updateFilterSummary("outlet");
+      updateFilterSummary("month");
     }
 
     function getFilteredRows() {
       return salesData.filter((row) => {
-        const outletMatch = state.outlet === "All" || row.outlet === state.outlet;
-        const monthMatch = state.month === "All" || row.month === state.month;
+        const outletMatch = state.outlets.size === 0 || state.outlets.has(row.outlet);
+        const monthMatch = state.months.size === 0 || state.months.has(row.month);
         const programMatch = !state.plusOnly || row.program === "Plus";
         return outletMatch && monthMatch && programMatch;
       });
@@ -672,7 +926,7 @@ function getAchievement(row) {
       }
 
       const groups = new Map();
-      const combineAllMonths = state.month === "All";
+      const combineAllMonths = state.months.size === 0;
 
       rows.forEach((row) => {
         const groupName = row.plusGroup && row.plusGroup !== "-"
@@ -734,11 +988,12 @@ function getAchievement(row) {
     function renderTable(rows) {
       const displayRows = getDisplayRows(rows);
       salesTableBody.innerHTML = "";
+      incentiveHeader.hidden = !state.plusOnly;
 
       if (!displayRows.length) {
         salesTableBody.innerHTML = `
           <tr>
-            <td colspan="8" class="empty">No matching sales records.</td>
+            <td colspan="${state.plusOnly ? 9 : 8}" class="empty">No matching sales records.</td>
           </tr>
         `;
         resultCount.textContent = "0 rows";
@@ -750,10 +1005,12 @@ function getAchievement(row) {
       displayRows.forEach((row) => {
         const balance = getBalance(row);
         const achievement = getAchievement(row);
+        const incentive = state.plusOnly ? getIncentive(row) : null;
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td>${row.leCode ? `${row.leCode} - ` : ""}${row.outlet}</td>
           <td class="number ${achievement !== null && achievement >= 1 ? "complete" : "positive"}">${achievement === null ? "-" : `${(achievement * 100).toFixed(1)}%`}</td>
+          ${state.plusOnly ? `<td class="number ${incentive > 0 ? "complete" : ""}">${incentive === null ? "-" : formatIncentiveCurrency.format(incentive)}</td>` : ""}
           <td>${row.month}</td>
           <td><span class="badge ${row.program.toLowerCase()}">${row.program}</span></td>
           <td class="number">
@@ -781,14 +1038,20 @@ function getAchievement(row) {
       renderTable(rows);
     }
 
-    outletFilter.addEventListener("change", (event) => {
-      state.outlet = event.target.value;
-      renderDashboard();
+    outletSearch.addEventListener("input", () => {
+      filterOptions(outletSearch, outletOptions, outletEmpty);
     });
 
-    monthFilter.addEventListener("change", (event) => {
-      state.month = event.target.value;
-      renderDashboard();
+    monthSearch.addEventListener("input", () => {
+      filterOptions(monthSearch, monthOptions, monthEmpty);
+    });
+
+    clearOutletFilter.addEventListener("click", () => {
+      clearMultiFilter(state.outlets, outletOptions, "outlet");
+    });
+
+    clearMonthFilter.addEventListener("click", () => {
+      clearMultiFilter(state.months, monthOptions, "month");
     });
 
     plusFilter.addEventListener("click", () => {
@@ -797,12 +1060,26 @@ function getAchievement(row) {
     });
 
     resetFilters.addEventListener("click", () => {
-      state.outlet = "All";
-      state.month = "All";
+      state.outlets.clear();
+      state.months.clear();
       state.plusOnly = false;
-      outletFilter.value = "All";
-      monthFilter.value = "All";
+      outletSearch.value = "";
+      monthSearch.value = "";
+      filterOptions(outletSearch, outletOptions, outletEmpty);
+      filterOptions(monthSearch, monthOptions, monthEmpty);
+      outletOptions.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => checkbox.checked = false);
+      monthOptions.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => checkbox.checked = false);
+      updateFilterSummary("outlet");
+      updateFilterSummary("month");
       renderDashboard();
+    });
+
+    document.addEventListener("click", (event) => {
+      [outletFilter, monthFilter].forEach((filter) => {
+        if (filter.open && !filter.contains(event.target)) {
+          filter.open = false;
+        }
+      });
     });
 
     async function initDashboard() {
