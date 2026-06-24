@@ -12,7 +12,7 @@
     { "leCode": "D9033733733709013199", "outlet": "PASARAYA HWA THAI SDN. BHD. @ LARKIN", "month": "June", "program": "Normal", "plusGroup": "-", "plusTarget": 0, "ams2025": 2627, "upToDateSales": 2234.4 },
     { "leCode": "D9033733733709008875", "outlet": "PASARAYA HWA THAI SDN BHD @ BBU", "month": "June", "program": "Normal", "plusGroup": "-", "plusTarget": 0, "ams2025": 2386, "upToDateSales": 4281.935 },
     { "leCode": "D9034334334309012572", "outlet": "PASARAYA HWA THAI SDN. BHD. @ THE COMMUNE", "month": "June", "program": "Normal", "plusGroup": "-", "plusTarget": 0, "ams2025": 2301, "upToDateSales": 2697.2495 },
-    { "leCode": "D9034534534509011015", "outlet": "PASARAYA HWA THAI SDN BHD @ PUTERI MART", "month": "June", "program": "Normal", "plusGroup": "-", "plusTarget": 0, "ams2025": 1315, "upToDateSales": 0 },
+    { "leCode": "D9034534534509011015", "outlet": "PASARAYA HWA THAI SDN BHD @ PUTERI MART", "month": "June", "program": "Normal", "plusGroup": "-", "plusTarget": 0, "ams2025": 1315, "upToDateSales": 2234.4 },
     { "leCode": "D9034534534509004024", "outlet": "PASARAYA HWA THAI SDN BHD @ TODAY MART", "month": "June", "program": "Normal", "plusGroup": "-", "plusTarget": 0, "ams2025": 1135, "upToDateSales": 2234.4 },
     { "leCode": "D9034234234201400032", "outlet": "MIDAS MERGE SDN BHD (574390-H)", "month": "June", "program": "Plus", "plusGroup": "Midas Group", "plusTarget": 427174, "ams2025": 92558, "upToDateSales": 41553.76 },
     { "leCode": "D9034534534501400011", "outlet": "RINTING FROZEN FOODS SDN BHD (984206-X)", "month": "June", "program": "Plus", "plusGroup": "-", "plusTarget": 226992, "ams2025": 76695, "upToDateSales": 68488.73 },
@@ -25,7 +25,7 @@
     { "leCode": "D9033733733701400770", "outlet": "NBS CASH & CARRY S/B (KULAI)", "month": "June", "program": "Plus", "plusGroup": "-", "plusTarget": 44275, "ams2025": 19583, "upToDateSales": 4745.155 },
     { "leCode": "D9033733733701400059", "outlet": "YU LIEN TRADING CO. (JM0073707-D)", "month": "June", "program": "Plus", "plusGroup": "-", "plusTarget": 69563, "ams2025": 18492, "upToDateSales": 18199.0455 },
     { "leCode": "D9035735735709005326", "outlet": "CK FOOD CASTLE SDN. BHD.", "month": "June", "program": "Normal", "plusGroup": "-", "plusTarget": 60341, "ams2025": 17702, "upToDateSales": 18892.0325 },
-    { "leCode": "D9033733733701401068", "outlet": "JM FROZEN FOODS SUPPLY SDN BHD (1178182-X)", "month": "June", "program": "Normal", "plusGroup": "-", "plusTarget": 66709, "ams2025": 17029, "upToDateSales": 9918 },
+    { "leCode": "D9033733733701401068", "outlet": "JM FROZEN FOODS SUPPLY SDN BHD (1178182-X)", "month": "June", "program": "Normal", "plusGroup": "-", "plusTarget": 66709, "ams2025": 17029, "upToDateSales": 14877 },
     { "leCode": "D9035735735709001634", "outlet": "G GROCER SDN BHD (1242048-)", "month": "June", "program": "Normal", "plusGroup": "-", "plusTarget": 51489, "ams2025": 15419, "upToDateSales": 13402.239 },
     { "leCode": "D9033733733701400029", "outlet": "LIANG HIANG SDN BHD (563464-D)", "month": "June", "program": "Normal", "plusGroup": "-", "plusTarget": 42839, "ams2025": 11915, "upToDateSales": 11077.9975 },
     { "leCode": "D9033733733701400646", "outlet": "KHT GROCERY SDN. BHD.", "month": "June", "program": "Normal", "plusGroup": "-", "plusTarget": 25138, "ams2025": 8102, "upToDateSales": 9195.81 }
